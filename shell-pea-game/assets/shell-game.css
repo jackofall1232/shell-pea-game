@@ -1,0 +1,325 @@
+/* Shell Pea Game — front-end styles */
+
+.spg-game {
+	max-width: 500px;
+	margin: 1.5em auto;
+	padding: 1.25em 1em 1.5em;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	color: #2b1d12;
+	background: linear-gradient(180deg, #f7efe3 0%, #ead7bb 100%);
+	border-radius: 12px;
+	box-shadow: 0 6px 20px rgba(43, 29, 18, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+	position: relative;
+	overflow: hidden;
+}
+
+.spg-header {
+	margin-bottom: 0.75em;
+}
+
+.spg-stats {
+	display: flex;
+	justify-content: space-around;
+	gap: 0.5em;
+	padding: 0.5em 0.25em;
+	background: rgba(107, 63, 31, 0.08);
+	border-radius: 8px;
+}
+
+.spg-stat {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+}
+
+.spg-stat-label {
+	font-size: 0.75em;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: #6b3f1f;
+	margin-bottom: 0.15em;
+}
+
+.spg-stat-value {
+	font-size: 1.4em;
+	font-weight: 700;
+	color: #2b1d12;
+}
+
+.spg-bet-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	align-items: center;
+	justify-content: center;
+	margin: 0.85em 0;
+}
+
+.spg-bet-label {
+	font-weight: 600;
+	margin-right: 0.25em;
+	color: #4a2e16;
+}
+
+.spg-bet-btn,
+.spg-shuffle-btn,
+.spg-reset-btn,
+.spg-mute-btn {
+	font: inherit;
+	padding: 0.45em 0.85em;
+	border-radius: 6px;
+	border: 1px solid #6b3f1f;
+	background: #c4845a;
+	color: #2b1d12;
+	cursor: pointer;
+	transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+	box-shadow: 0 2px 0 #6b3f1f;
+	font-weight: 600;
+}
+
+.spg-bet-btn:hover:not([disabled]),
+.spg-shuffle-btn:hover:not([disabled]),
+.spg-reset-btn:hover:not([disabled]),
+.spg-mute-btn:hover:not([disabled]) {
+	background: #d49872;
+}
+
+.spg-bet-btn:active:not([disabled]),
+.spg-shuffle-btn:active:not([disabled]),
+.spg-reset-btn:active:not([disabled]),
+.spg-mute-btn:active:not([disabled]) {
+	transform: translateY(1px);
+	box-shadow: 0 1px 0 #6b3f1f;
+}
+
+.spg-bet-btn[disabled],
+.spg-shuffle-btn[disabled],
+.spg-reset-btn[disabled],
+.spg-mute-btn[disabled] {
+	opacity: 0.45;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+.spg-bet-btn.is-active {
+	background: #4caf50;
+	color: #fff;
+	border-color: #2e7d32;
+	box-shadow: 0 2px 0 #2e7d32;
+}
+
+.spg-shuffle-btn {
+	background: #6b3f1f;
+	color: #f7efe3;
+	border-color: #4a2e16;
+	box-shadow: 0 2px 0 #4a2e16;
+}
+
+.spg-shuffle-btn:hover:not([disabled]) {
+	background: #815031;
+}
+
+.spg-board {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+	align-items: end;
+	min-height: 140px;
+	margin: 1em 0 0.5em;
+	position: relative;
+	padding: 0 0.25em;
+}
+
+.spg-shell-slot {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	min-height: 140px;
+	will-change: transform;
+}
+
+.spg-shell {
+	position: relative;
+	display: block;
+	width: 110px;
+	max-width: 100%;
+	padding: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	transition: transform 0.45s cubic-bezier(.22, .9, .3, 1.3);
+	transform-origin: 60px 100%;
+	z-index: 2;
+}
+
+.spg-shell[disabled] {
+	cursor: default;
+}
+
+.spg-shell-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	pointer-events: none;
+}
+
+.spg-pea {
+	position: absolute;
+	bottom: 4px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 38px;
+	height: 38px;
+	opacity: 0;
+	transition: opacity 0.18s ease;
+	z-index: 1;
+	pointer-events: none;
+}
+
+.spg-pea.is-visible {
+	opacity: 1;
+}
+
+.spg-pea-svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+}
+
+.spg-shell-slot.is-lifted .spg-shell {
+	animation: spg-lift 0.55s ease-out forwards;
+}
+
+@keyframes spg-lift {
+	0%   { transform: translateY(0)    rotate(0); }
+	60%  { transform: translateY(-62px) rotate(-5deg); }
+	100% { transform: translateY(-58px) rotate(-5deg); }
+}
+
+@keyframes spg-land {
+	0%   { transform: translateY(-58px) rotate(-5deg); }
+	70%  { transform: translateY(4px)   rotate(0); }
+	85%  { transform: translateY(-3px)  rotate(0); }
+	100% { transform: translateY(0)     rotate(0); }
+}
+
+.spg-shell-slot:not(.is-lifted) .spg-shell {
+	animation: spg-land 0.4s ease-out;
+}
+
+.spg-game[data-phase="picking"] .spg-shell {
+	cursor: pointer;
+}
+
+.spg-game[data-phase="picking"] .spg-shell:hover {
+	transform: translateY(-6px);
+}
+
+.spg-game[data-phase="watching"] .spg-shell,
+.spg-game[data-phase="reveal"] .spg-shell,
+.spg-game[data-phase="gameover"] .spg-shell {
+	cursor: default;
+}
+
+.spg-status {
+	margin-top: 0.75em;
+	padding: 0.6em 0.75em;
+	background: rgba(74, 46, 22, 0.85);
+	color: #f7efe3;
+	border-radius: 6px;
+	text-align: center;
+	font-weight: 500;
+	min-height: 1.4em;
+}
+
+.spg-footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.5em;
+	margin-top: 0.75em;
+}
+
+.spg-reset-btn,
+.spg-mute-btn {
+	background: transparent;
+	color: #4a2e16;
+	box-shadow: none;
+	border-color: #8b5e3c;
+}
+
+.spg-reset-btn:hover,
+.spg-mute-btn:hover {
+	background: rgba(139, 94, 60, 0.15);
+}
+
+/* Win / lose flashes */
+.spg-game.spg-flash-win::after,
+.spg-game.spg-flash-lose::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: inherit;
+	animation: spg-flash 0.9s ease-out forwards;
+}
+
+.spg-game.spg-flash-win::after {
+	background: rgba(76, 175, 80, 0.35);
+	box-shadow: inset 0 0 24px rgba(76, 175, 80, 0.6);
+}
+
+.spg-game.spg-flash-lose::after {
+	background: rgba(176, 0, 32, 0.25);
+	box-shadow: inset 0 0 24px rgba(176, 0, 32, 0.5);
+}
+
+@keyframes spg-flash {
+	0%   { opacity: 0; }
+	30%  { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+/* Win glow on the chosen shell */
+.spg-game.spg-flash-win .spg-shell-slot.is-lifted .spg-shell-svg {
+	filter: drop-shadow(0 0 12px rgba(76, 175, 80, 0.85));
+}
+
+/* Reduced motion: kill animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+	.spg-shell,
+	.spg-shell-slot,
+	.spg-pea,
+	.spg-game.spg-flash-win::after,
+	.spg-game.spg-flash-lose::after {
+		transition: none !important;
+		animation: none !important;
+	}
+	.spg-shell-slot.is-lifted .spg-shell {
+		transform: translateY(-58px) rotate(-5deg);
+	}
+}
+
+/* Small screens */
+@media (max-width: 420px) {
+	.spg-shell {
+		width: 88px;
+	}
+	.spg-pea {
+		width: 30px;
+		height: 30px;
+	}
+	.spg-stat-value {
+		font-size: 1.15em;
+	}
+	.spg-bet-btn,
+	.spg-shuffle-btn,
+	.spg-reset-btn,
+	.spg-mute-btn {
+		padding: 0.4em 0.65em;
+	}
+}
