@@ -218,7 +218,7 @@
 			currentBet: 0,
 			round: 1,
 			highScore: readHighScore(),
-			peaIndex: 0,
+			peaShell: 0,
 			positions: [0, 1, 2],
 			gamePhase: 'betting'
 		};
@@ -357,13 +357,13 @@
 			setPhase('watching');
 			setStatus('Watch the pea...');
 
-			// Start with pea always under the middle physical column for a fair reveal.
+			// Reset positions and randomize which shell holds the pea this round.
 			state.positions = [0, 1, 2];
-			state.peaIndex = 1; // physical column 1 holds the pea at the start
+			state.peaShell = Math.floor(Math.random() * 3);
 			renderPositions(false);
 
-			// Map: which slot currently holds physical column 1?
-			var startingSlot = indexOfPosition(1);
+			// Slot identity == shell identity, so the slot to lift is the pea-holding shell.
+			var startingSlot = state.peaShell;
 
 			// Show the pea by lifting that slot.
 			setPeaVisible(startingSlot, true);
@@ -409,8 +409,7 @@
 			if (state.gamePhase !== 'picking') { return; }
 			setPhase('reveal');
 
-			var chosenPosition = state.positions[slotIndex];
-			var win = (chosenPosition === state.peaIndex);
+			var win = (slotIndex === state.peaShell);
 
 			setSlotLifted(slotIndex, true);
 			if (win) {
@@ -423,7 +422,7 @@
 				setTimeout(function () { sounds.lose(); }, 150);
 				root.classList.add('spg-flash-lose');
 				// Also lift the winning shell so the player can see where the pea was.
-				var winningSlot = indexOfPosition(state.peaIndex);
+				var winningSlot = state.peaShell;
 				setTimeout(function () {
 					setSlotLifted(winningSlot, true);
 					setPeaVisible(winningSlot, true);
@@ -470,7 +469,7 @@
 			state.currentBet = 0;
 			state.round = 1;
 			state.positions = [0, 1, 2];
-			state.peaIndex = 1;
+			state.peaShell = 0;
 			renderPositions(false);
 			setSlotLifted(-1, false);
 			setPeaVisible(-1, false);
